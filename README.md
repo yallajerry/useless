@@ -12,8 +12,7 @@ If you're looking for meaningful insight... you've wandered into the wrong corne
 This website was built with love, sarcasm, and a refusal to take data too seriously. It uses:
 - HTML / CSS / JS
 - Pure passion for pointless numbers
-- Contributions from internet wanderers like yourself 🕶️
-
+- 
 ## 📜 License
 
 This project is licensed under the [MIT License](LICENSE). Feel free to use, remix, and share—with proper attribution, of course. Spread the nonsense!
