@@ -106,5 +106,23 @@
     <footer>made with 💖 by jerry.</footer>
 
     <script src="scripts.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const isMobileOS =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          );
+
+        if (isMobileOS) {
+          document.getElementById("mouseDistance").textContent =
+            "Mouse distance moved: N/A (mobile)";
+          document.getElementById(
+            "mouseClicks"
+          ).textContent = `Times you tapped the screen: ${mouseClicks}`;
+          document.getElementById("keysPressed").textContent =
+            "Keys you pressed: N/A (mobile)";
+        }
+      });
+    </script>
   </body>
 </html>
