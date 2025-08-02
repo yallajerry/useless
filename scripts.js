@@ -1,178 +1,164 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Check if the device is mobile/small screen
-  if (window.innerWidth < 768) {
-    document.querySelector("main").style.display = "none";
-    document.querySelector("footer").style.display = "none";
-    document.getElementById("mobile-unsupported").style.display = "flex";
-    return; // Stop the script from running further on mobile
+const url = "https://yallajerry.github.io/useless/";
+const urlLength = url.length;
+
+let refreshCount = parseInt(localStorage.getItem("refreshCount")) || 0;
+refreshCount++;
+localStorage.setItem("refreshCount", refreshCount);
+
+let startTime = Date.now();
+let keysPressed = 0;
+let mouseClicks = 0;
+
+// Mouse tracking for distance
+let lastMouseX = 0;
+let lastMouseY = 0;
+let totalMouseDistance = 0;
+
+document.addEventListener("mousemove", (e) => {
+  if (lastMouseX > 0 && lastMouseY > 0) {
+    const dx = e.clientX - lastMouseX;
+    const dy = e.clientY - lastMouseY;
+    totalMouseDistance += Math.sqrt(dx * dx + dy * dy);
   }
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+});
 
-  const url = "https://mah23style.github.io/useless/";
-  const urlLength = url.length;
-
-  let refreshCount = parseInt(localStorage.getItem("refreshCount")) || 0;
-  refreshCount++;
-  localStorage.setItem("refreshCount", refreshCount);
-
-  let startTime = Date.now();
-  let keysPressed = 0;
-  let mouseClicks = 0;
-
-  // Mouse tracking for distance
-  let lastMouseX = 0;
-  let lastMouseY = 0;
-  let totalMouseDistance = 0;
-
-  document.addEventListener("mousemove", (e) => {
-    if (lastMouseX > 0 && lastMouseY > 0) {
-      const dx = e.clientX - lastMouseX;
-      const dy = e.clientY - lastMouseY;
-      totalMouseDistance += Math.sqrt(dx * dx + dy * dy);
-    }
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
-  });
-
-  // Listen for left clicks only (e.button === 0)
-  document.addEventListener("click", (e) => {
-    if (e.button === 0) {
-      mouseClicks++;
-    }
-  });
-
-  // Event listener for key presses
-  document.addEventListener("keydown", (e) => {
-    keysPressed++;
-    // Trigger confetti on 'g' key press
-    if (e.key.toLowerCase() === "g") {
-      startConfetti();
-    }
-  });
-
-  function updateStats() {
-    const now = Math.floor(Date.now() / 1000);
-    const timeOnPage = Math.floor((Date.now() - startTime) / 1000);
-
-    // Update all the stat elements
-    document.getElementById(
-      "unix"
-    ).textContent = `Seconds since 1970: ${now.toLocaleString()}`;
-    document.getElementById(
-      "yawns"
-    ).textContent = `Number of yawns worldwide: ${Math.floor(
-      now * 0.5
-    ).toLocaleString()}`;
-    document.getElementById(
-      "blinks"
-    ).textContent = `Blinks somewhere: ${Math.floor(
-      now * 0.9
-    ).toLocaleString()}`;
-    document.getElementById(
-      "pencils"
-    ).textContent = `Pencils broken: ${Math.floor(
-      (now - 1600000000) / 3972
-    ).toLocaleString()}`;
-    document.getElementById(
-      "bananas"
-    ).textContent = `Banana slips (Mario Kart): ${(
-      now % 1337
-    ).toLocaleString()}`;
-    document.getElementById(
-      "refresh"
-    ).textContent = `Times you refreshed: ${refreshCount}`;
-    document.getElementById(
-      "urlLength"
-    ).textContent = `Characters in URL: ${urlLength}`;
-    document.getElementById(
-      "toilets"
-    ).textContent = `Toilets flushed: ${Math.floor(timeOnPage * 0.24)}`;
-    document.getElementById(
-      "thoughts"
-    ).textContent = `"I should go to bed" thoughts: ${Math.floor(
-      now * 2
-    ).toLocaleString()}`;
-    document.getElementById(
-      "tiktoks"
-    ).textContent = `Cringe TikToks posted: ${Math.floor(
-      now * 0.3
-    ).toLocaleString()}`;
-    document.getElementById(
-      "timeOnPage"
-    ).textContent = `Time wasted: ${timeOnPage} seconds`;
-    document.getElementById(
-      "keysPressed"
-    ).textContent = `Keys you pressed: ${keysPressed}`;
-    document.getElementById(
-      "farts"
-    ).textContent = `Farts recorded: ${Math.floor(now * 1.3).toLocaleString()}`;
-    document.getElementById(
-      "watched"
-    ).textContent = `Chances you're being watched: ${(
-      70 +
-      Math.sin(now / 10) * 30
-    ).toFixed(1)}%`;
-    document.getElementById(
-      "bros"
-    ).textContent = `People saying "bro": ${Math.floor(
-      now * 1.4
-    ).toLocaleString()}`;
-    document.getElementById(
-      "particles"
-    ).textContent = `Particles around you: ${Math.floor(
-      now * 123.45
-    ).toLocaleString()}`;
-    document.getElementById(
-      "karen"
-    ).textContent = `Karens complaining: ${Math.floor(
-      now * 0.01
-    ).toLocaleString()}`;
-    document.getElementById(
-      "mouseDistance"
-    ).textContent = `Mouse distance moved: ${(
-      totalMouseDistance / 3780
-    ).toFixed(1)} m`; // pixels to meters
-    document.getElementById(
-      "trolls"
-    ).textContent = `Internet trolls lurking: ${Math.floor(
-      now * 0.15
-    ).toLocaleString()}`;
-    document.getElementById(
-      "mouseClicks"
-    ).textContent = `Left clicks: ${mouseClicks}`;
-    document.getElementById(
-      "misspellings"
-    ).textContent = `Typos made globally: ${Math.floor(
-      now * 3.2
-    ).toLocaleString()}`;
-    document.getElementById(
-      "lies"
-    ).textContent = `Lies told since you visited: ${Math.floor(
-      timeOnPage * 0.8
-    )}`;
+// Listen for left clicks only (e.button === 0)
+document.addEventListener("click", (e) => {
+  if (e.button === 0) {
+    mouseClicks++;
   }
+});
 
-  // Set interval to update stats every second
-  setInterval(updateStats, 1000);
-  updateStats(); // Initial call
+// Event listener for key presses
+document.addEventListener("keydown", (e) => {
+  keysPressed++;
+  // Trigger confetti on 'g' key press
+  if (e.key.toLowerCase() === "g") {
+    startConfetti();
+  }
+});
 
-  // Intersection Observer to fade in stats on scroll
-  const panels = document.querySelectorAll(".panel");
-  const observerOptions = {
-    root: null, // relative to the viewport
-    threshold: 0.5, // trigger when 50% of the panel is visible
-  };
+function updateStats() {
+  const now = Math.floor(Date.now() / 1000);
+  const timeOnPage = Math.floor((Date.now() - startTime) / 1000);
 
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  }, observerOptions);
+  // Update all the stat elements
+  document.getElementById(
+    "unix"
+  ).textContent = `Seconds since 1970: ${now.toLocaleString()}`;
+  document.getElementById(
+    "yawns"
+  ).textContent = `Number of yawns worldwide: ${Math.floor(
+    now * 0.5
+  ).toLocaleString()}`;
+  document.getElementById(
+    "blinks"
+  ).textContent = `Blinks somewhere: ${Math.floor(now * 0.9).toLocaleString()}`;
+  document.getElementById(
+    "pencils"
+  ).textContent = `Pencils broken: ${Math.floor(
+    (now - 1600000000) / 3972
+  ).toLocaleString()}`;
+  document.getElementById(
+    "bananas"
+  ).textContent = `Banana slips (Mario Kart): ${(now % 1337).toLocaleString()}`;
+  document.getElementById(
+    "refresh"
+  ).textContent = `Times you refreshed: ${refreshCount}`;
+  document.getElementById(
+    "urlLength"
+  ).textContent = `Characters in URL: ${urlLength}`;
+  document.getElementById(
+    "toilets"
+  ).textContent = `Toilets flushed: ${Math.floor(timeOnPage * 0.24)}`;
+  document.getElementById(
+    "thoughts"
+  ).textContent = `"I should go to bed" thoughts: ${Math.floor(
+    now * 2
+  ).toLocaleString()}`;
+  document.getElementById(
+    "tiktoks"
+  ).textContent = `Cringe TikToks posted: ${Math.floor(
+    now * 0.3
+  ).toLocaleString()}`;
+  document.getElementById(
+    "timeOnPage"
+  ).textContent = `Time wasted: ${timeOnPage} seconds`;
+  document.getElementById(
+    "keysPressed"
+  ).textContent = `Keys you pressed: ${keysPressed}`;
+  document.getElementById("farts").textContent = `Farts recorded: ${Math.floor(
+    now * 1.3
+  ).toLocaleString()}`;
+  document.getElementById(
+    "watched"
+  ).textContent = `Chances you're being watched: ${(
+    70 +
+    Math.sin(now / 10) * 30
+  ).toFixed(1)}%`;
+  document.getElementById(
+    "bros"
+  ).textContent = `People saying "bro": ${Math.floor(
+    now * 1.4
+  ).toLocaleString()}`;
+  document.getElementById(
+    "particles"
+  ).textContent = `Particles around you: ${Math.floor(
+    now * 123.45
+  ).toLocaleString()}`;
+  document.getElementById(
+    "karen"
+  ).textContent = `Karens complaining: ${Math.floor(
+    now * 0.01
+  ).toLocaleString()}`;
+  document.getElementById(
+    "mouseDistance"
+  ).textContent = `Mouse distance moved: ${(totalMouseDistance / 3780).toFixed(
+    1
+  )} m`; // pixels to meters
+  document.getElementById(
+    "trolls"
+  ).textContent = `Internet trolls lurking: ${Math.floor(
+    now * 0.15
+  ).toLocaleString()}`;
+  document.getElementById(
+    "mouseClicks"
+  ).textContent = `Left clicks: ${mouseClicks}`;
+  document.getElementById(
+    "misspellings"
+  ).textContent = `Typos made globally: ${Math.floor(
+    now * 3.2
+  ).toLocaleString()}`;
+  document.getElementById(
+    "lies"
+  ).textContent = `Lies told since you visited: ${Math.floor(
+    timeOnPage * 0.8
+  )}`;
+}
 
-  panels.forEach((panel) => {
-    observer.observe(panel);
+// Set interval to update stats every second
+setInterval(updateStats, 1000);
+updateStats(); // Initial call
+
+// Intersection Observer to fade in stats on scroll
+const panels = document.querySelectorAll(".panel");
+const observerOptions = {
+  root: null, // relative to the viewport
+  threshold: 0.5, // trigger when 50% of the panel is visible
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
   });
+}, observerOptions);
+
+panels.forEach((panel) => {
+  observer.observe(panel);
 });
 
 // Confetti animation function
